@@ -1,0 +1,36 @@
+name: 'Garmin ConnectIQ Build'
+description: 'Builds a garmin connect IQ project. Useful for checking if your projects build on specific devices.'
+inputs:
+  developerKey:
+    description: 'Developer key to sign the export with. Please do not push this to your repo unencrypted'
+    required: true
+    default: './developer_key'
+  projectJungle:
+    description: 'Path to the monkey.jungle file'
+    required: true
+    default: './monkey.jungle'
+  typeCheck:
+    description: '0=off, 1=gradual, 2=informative, 3=strict'
+    required: true
+    default: '0'
+  device:
+    description: 'Device id'
+    required: true
+    default: 'fr165'
+  outputPath:
+    description: 'Output path of the export'
+    required: true
+    default: './out/export.prg'
+outputs: {}
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.projectJungle }}
+    - ${{ inputs.device }}
+    - ${{ inputs.developerKey }}
+    - ${{ inputs.outputPath }}
+    - ${{ inputs.typeCheck }}
+branding:
+  icon: 'triangle'
+  color: 'blue'
