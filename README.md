@@ -4,6 +4,14 @@ This action exports your ConnectIQ app ready for uploading to the Garmin's Conne
 
 ## Inputs
 
+## `device`
+
+**Required** The garmin device_id of the device to build for. Default "fr165".
+
+## `typeCheck`
+
+**Required** The typechecking level to use. 0=off, 1=gradual, 2=informative, 3=strict.
+
 ## `developerKey`
 
 **Required** The path to the developer_key to use. Remember to **NOT** commit your developer_key plainly into your repository. You can and should store it encrypted in your repository. See [this documentation from](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#storing-large-secrets) github. Default `"./developer_key"`.
