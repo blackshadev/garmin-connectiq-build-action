@@ -1,6 +1,6 @@
-# Garmin ConnectIQ release action
+# Garmin ConnectIQ build action
 
-This action exports your ConnectIQ app ready for uploading to the Garmin's ConnectIQ apps store.  
+This action build your ConnectIQ app 
 
 ## Inputs
 
@@ -18,7 +18,7 @@ This action exports your ConnectIQ app ready for uploading to the Garmin's Conne
 
 ## `projectJungle`
 
-**Required** The path to your project.jungle file to export. Default `"./out/export.iq"`.
+**Required** The path to your project.jungle file to export. Default `"./out/export.prg"`.
 
 ## `outputPath`
 
@@ -31,15 +31,12 @@ This action exports your ConnectIQ app ready for uploading to the Garmin's Conne
 ## Example usage
 
 ```
-name: Release
-run-name: ${{ github.actor }} is releasing 🚀
-on: 
-  push:
-    tags:
-      - '*'
+name: Test
+run-name: Running tests
+on: push
 
 jobs:
-  Create-Release:
+  Test-Build:
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -52,12 +49,14 @@ jobs:
           INPUT: ./developer_key.gpg
           OUTPUT: ./developer_key
           PASSPHRASE: ${{ secrets.DEVELOPER_KEY_PASSPHRASE }}
-      - name: Create release
-        uses: blackshadev/garmin-connectiq-release-action@1.0.1
+      - name: Build
+        uses: blackshadev/garmin-connectiq-build-action@0.1.0
         with:
           projectJungle: ./monkey.jungle
           developerKey: ./developer_key
-          outputPath: out/app.iq
+          outputPath: out/app.prg
+          device: fr165
+          typeCheck: '1'
       - name: Upload release artifacts
         uses: actions/upload-artifact@v4
         with:
