@@ -6,11 +6,11 @@ This action build your ConnectIQ app
 
 ## `device`
 
-**Required** The garmin device_id of the device to build for. Default "fr165".
+**Required** The garmin device_id of the device to build for. Default `"fr165"`.
 
 ## `typeCheck`
 
-**Required** The typechecking level to use. 0=off, 1=gradual, 2=informative, 3=strict.
+**Required** The typechecking level to use. 0=off, 1=gradual, 2=informative, 3=strict. Default `"0"`.
 
 ## `developerKey`
 
@@ -18,11 +18,11 @@ This action build your ConnectIQ app
 
 ## `projectJungle`
 
-**Required** The path to your project.jungle file to export. Default `"./out/export.prg"`.
+**Required** The path to your project.jungle file to export. Default `"./monkey.jungle"`.
 
 ## `outputPath`
 
-**Required** The path where to export to. `"./developer_key"`.
+**Required** The path where to export to. Default `"./out/export.prg"`.
 
 ## Outputs
 
