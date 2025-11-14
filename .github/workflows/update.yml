@@ -1,8 +1,7 @@
-name: Publish docker image
+name: Update Action
 
 permissions:
-  contents: read
-  packages: write
+  contents: write
 
 on:
     workflow_dispatch:
@@ -12,7 +11,7 @@ on:
                 required: true
 
 jobs:
-  build-and-push-image:
+  update-generated-files-and-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,6 +24,7 @@ jobs:
           for f in gen/*; do
             sed "s/\$VERSION$/$VERSION/" $f > $(basename $f)
           done
+
       - name: Commit and push changes
         run: |
           git config --global user.name 'github-actions[bot]'
