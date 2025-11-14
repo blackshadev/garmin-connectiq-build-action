@@ -1,0 +1,50 @@
+name: Publish docker image
+
+permissions:
+  contents: read
+  packages: write
+
+on:
+    workflow_dispatch:
+        inputs:
+            version:
+                description: 'Input the version update the repo to (e.g., 1.0.0)'
+                required: true
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Replace generated files with new version
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          echo "Updating generated files to version $VERSION"
+          for f in gen/*; do
+            sed "s/\$VERSION$/$VERSION/" $f > $(basename $f)
+          done
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Update generated files to version $VERSION"
+          git push origin main
+
+      - name: Create release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: Release ${{ github.event.inputs.version }}
+          body: |
+            Updated generated files to version ${{ github.event.inputs.version }}.
+          draft: true
+          prerelease: false
+          
+      
+      
+      
