@@ -9,9 +9,14 @@ on:
             version:
                 description: 'Input the version update the repo to (e.g., 1.0.0)'
                 required: true
+    repository_dispatch:
+        types: [update]
+        
 
 jobs:
   update-generated-files-and-release:
+    env:
+        VERSION: ${{ github.event.inputs.version || github.event.client_payload.version }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -19,7 +24,7 @@ jobs:
 
       - name: Replace generated files with new version
         run: |
-          VERSION=${{ github.event.inputs.version }}
+          VERSION=${{ env.VERSION }}
           echo "Updating generated files to version $VERSION"
           for f in gen/*; do
             sed "s/\$VERSION$/$VERSION/" $f > $(basename $f)
@@ -27,7 +32,7 @@ jobs:
 
       - name: Commit, push  and tag changes
         run: |
-          VERSION=${{ github.event.inputs.version }}
+          VERSION=${{ env.VERSION }}
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add .
@@ -41,10 +46,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         with:
-          tag_name: ${{ github.event.inputs.version }}
-          release_name: Release ${{ github.event.inputs.version }}
+          tag_name: ${{ env.VERSION }}
+          release_name: Release ${{ env.VERSION }}
           body: |
-            Updated generated files to version ${{ github.event.inputs.version }}.
+            Updated generated files to version ${{ env.VERSION }}.
           draft: true
           prerelease: false
           
