@@ -50,7 +50,7 @@ jobs:
           release_name: Release ${{ env.VERSION }}
           body: |
             Updated generated files to version ${{ env.VERSION }}.
-          draft: true
+          draft: false
           prerelease: false
           
       
