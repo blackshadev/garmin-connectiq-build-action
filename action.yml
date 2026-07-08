@@ -21,6 +21,10 @@ inputs:
     description: 'Output path of the export'
     required: true
     default: './out/export.prg'
+  extraArgs:
+    description: 'Additional arguments passed to monkeybrains compiler'
+    required: false
+    default: ''
 outputs: {}
 runs:
   using: 'docker'
@@ -31,6 +35,7 @@ runs:
     - ${{ inputs.developerKey }}
     - ${{ inputs.outputPath }}
     - ${{ inputs.typeCheck }}
+    - ${{ inputs.extraArgs }}
 branding:
   icon: 'triangle'
   color: 'blue'
